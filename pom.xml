@@ -5,36 +5,70 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.yteplyi.sandbox</groupId>
-    <artifactId>reactive</artifactId>
+    <artifactId>reactive-parent</artifactId>
     <version>0.1.0</version>
-    <packaging>jar</packaging>
+    <packaging>pom</packaging>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
         <main.verticle>com.yteplyi.sandbox.reactive.SimpleVerticle</main.verticle>
-        <launcher.class>io.vertx.core.Launcher</launcher.class>
     </properties>
+
+    <modules>
+        <module>docker</module>
+        <module>server</module>
+    </modules>
 
     <dependencyManagement>
         <dependencies>
+            <!-- Project -->
+            <dependency>
+                <groupId>com.yteplyi.sandbox</groupId>
+                <artifactId>reactive-server</artifactId>
+                <version>${project.version}</version>
+            </dependency>
+
+            <!-- Vert.x -->
             <dependency>
                 <groupId>io.vertx</groupId>
                 <artifactId>vertx-core</artifactId>
                 <version>4.3.2</version>
             </dependency>
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-web</artifactId>
+                <version>4.3.2</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
-    <dependencies>
-        <dependency>
-            <groupId>io.vertx</groupId>
-            <artifactId>vertx-core</artifactId>
-        </dependency>
-    </dependencies>
+    <profiles>
+        <profile>
+            <id>docker</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>com.spotify</groupId>
+                        <artifactId>dockerfile-maven-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+        <profile>
+            <id>uber</id>
+            <build>
+                <plugins>
+                    <plugin>
+                        <groupId>io.reactiverse</groupId>
+                        <artifactId>vertx-maven-plugin</artifactId>
+                    </plugin>
+                </plugins>
+            </build>
+        </profile>
+    </profiles>
 
     <build>
-        <finalName>reactive</finalName>
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -43,24 +77,6 @@
                 <configuration>
                     <source>1.8</source>
                     <target>1.8</target>
-                </configuration>
-            </plugin>
-            <plugin>
-                <groupId>io.reactiverse</groupId>
-                <artifactId>vertx-maven-plugin</artifactId>
-                <version>1.0.28</version>
-                <executions>
-                    <execution>
-                        <id>vmp</id>
-                        <goals>
-                            <goal>initialize</goal>
-                            <goal>package</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <redeploy>true</redeploy>
-                    <javaVersion>17</javaVersion>
                 </configuration>
             </plugin>
         </plugins>

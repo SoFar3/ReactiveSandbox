@@ -1,7 +1,7 @@
 FROM vertx/vertx4
 
-ENV VERTICLE_NAME com.yteplyi.sandbox.reactive.SimpleVerticle
-ENV VERTICLE_FILE target/
+ENV VERTICLE_NAME ${main.verticle}
+ENV VERTICLE_FILE /app
 
 ENV VERTICLE_HOME /usr/verticles
 
