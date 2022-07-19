@@ -12,7 +12,7 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 
-        <main.verticle>com.yteplyi.sandbox.reactive.SimpleVerticle</main.verticle>
+        <main.verticle>com.yteplyi.sandbox.reactive.MainVerticle</main.verticle>
     </properties>
 
     <modules>
