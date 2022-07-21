@@ -6,12 +6,12 @@
 
     <parent>
         <groupId>com.yteplyi.sandbox</groupId>
-        <artifactId>reactive-parent</artifactId>
+        <artifactId>reactive-user-encouragement-service-parent</artifactId>
         <version>0.1.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>reactive-server</artifactId>
+    <artifactId>reactive-user-encouragement-service-server</artifactId>
     <packaging>jar</packaging>
 
     <properties>
@@ -20,6 +20,11 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.yteplyi.sandbox</groupId>
+            <artifactId>reactive-user-encouragement-service-api</artifactId>
+        </dependency>
+
+        <dependency>
             <groupId>io.vertx</groupId>
             <artifactId>vertx-core</artifactId>
         </dependency>
@@ -27,20 +32,50 @@
             <groupId>io.vertx</groupId>
             <artifactId>vertx-web</artifactId>
         </dependency>
+        <dependency>
+            <groupId>io.vertx</groupId>
+            <artifactId>vertx-web-openapi</artifactId>
+        </dependency>
     </dependencies>
+
+    <build>
+        <plugins>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-dependency-plugin</artifactId>
+                <version>3.3.0</version>
+                <executions>
+                    <execution>
+                        <id>unpack-user-encouragement-service-api</id>
+                        <phase>package</phase>
+                        <goals>
+                            <goal>unpack-dependencies</goal>
+                        </goals>
+                        <configuration>
+                            <includeGroupIds>com.yteplyi.sandbox</includeGroupIds>
+                            <includeArtifactIds>reactive-user-encouragement-service-api</includeArtifactIds>
+                            <overWriteIfNewer>true</overWriteIfNewer>
+                            <outputDirectory>
+                                ${project.build.directory}/reactive-user-encouragement-service
+                            </outputDirectory>
+                            <includes>openapi/*.yaml</includes>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
 
     <profiles>
         <profile>
             <id>docker</id>
             <build>
-                <finalName>reactive</finalName>
                 <plugins>
                     <plugin>
                         <groupId>org.apache.maven.plugins</groupId>
                         <artifactId>maven-jar-plugin</artifactId>
                         <version>3.2.2</version>
                         <configuration>
-                            <finalName>reactive</finalName>
                             <archive>
                                 <index>true</index>
                                 <manifest>
@@ -59,12 +94,10 @@
         <profile>
             <id>uber</id>
             <build>
-                <finalName>reactive-uber</finalName>
                 <plugins>
                     <plugin>
                         <groupId>io.reactiverse</groupId>
                         <artifactId>vertx-maven-plugin</artifactId>
-                        <version>1.0.28</version>
                         <executions>
                             <execution>
                                 <id>vmp</id>

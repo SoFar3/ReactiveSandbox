@@ -1,6 +1,10 @@
 version: "3.9"
 services:
-  sandbox-verticle:
-    image: yteplyi/sandbox-reactive:0.1.0
+  payment-service:
+    image: yteplyi/reactive-payment-service
+    ports:
+      - "8080:8080"
+  user-encouragement-service:
+    image: yteplyi/reactive-user-encouragement-service
     ports:
       - "8080:8080"

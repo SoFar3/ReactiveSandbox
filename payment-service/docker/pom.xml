@@ -6,21 +6,21 @@
 
     <parent>
         <groupId>com.yteplyi.sandbox</groupId>
-        <artifactId>reactive-parent</artifactId>
+        <artifactId>reactive-payment-service-parent</artifactId>
         <version>0.1.0</version>
         <relativePath>../pom.xml</relativePath>
     </parent>
 
-    <artifactId>reactive-docker</artifactId>
+    <artifactId>reactive-payment-service-docker</artifactId>
 
     <properties>
-        <docker.image.name>yteplyi/sandbox-reactive</docker.image.name>
+        <docker.image.name>yteplyi/reactive-payment-service</docker.image.name>
     </properties>
 
     <dependencies>
         <dependency>
             <groupId>com.yteplyi.sandbox</groupId>
-            <artifactId>reactive-server</artifactId>
+            <artifactId>reactive-payment-service-server</artifactId>
         </dependency>
     </dependencies>
 
@@ -43,7 +43,7 @@
                                     <artifactItems>
                                         <artifactItem>
                                             <groupId>com.yteplyi.sandbox</groupId>
-                                            <artifactId>reactive-server</artifactId>
+                                            <artifactId>reactive-payment-service-server</artifactId>
                                             <outputDirectory>${project.build.directory}/app</outputDirectory>
                                         </artifactItem>
                                     </artifactItems>
@@ -76,7 +76,6 @@
                     <plugin>
                         <groupId>com.spotify</groupId>
                         <artifactId>dockerfile-maven-plugin</artifactId>
-                        <version>1.3.0</version>
                         <dependencies>
                             <dependency>
                                 <groupId>javax.activation</groupId>

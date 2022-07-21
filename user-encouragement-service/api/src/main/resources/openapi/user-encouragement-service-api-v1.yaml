@@ -1,0 +1,29 @@
+openapi: 3.0.3
+info:
+  version: 0.1.0
+  title: User Encouragement API
+  description: API for User Encouragement service
+servers:
+  - url: http://user-encouragement-service:{port}/api/rest/v1
+paths:
+  /api/rest/v1/version:
+    get:
+      description: Returns a version of this service.
+      operationId: version
+      responses:
+        '200':
+          description: Successful response
+        '400':
+          description: Bad request
+        '500':
+          description: Server internal error
+components:
+  schemas:
+    ServiceVersion:
+      type: object
+      properties:
+        version:
+          type: string
+          minLength: 1
+      required:
+        - version
