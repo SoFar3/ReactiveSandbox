@@ -10,7 +10,7 @@ public class MainVerticle extends AbstractVerticle {
     @Override
     public void start() {
         RouterBuilder
-                .create(vertx, "reactive-user-encouragement-service/openapi/user-encouragement-service-api-v1.yaml")
+                .create(vertx, Spec.USER_ENCOURAGEMENT_SERVICE_OPENAPI_SPEC)
                 .onSuccess(this::configureRouterBuilder)
                 .compose(rb -> vertx.createHttpServer()
                             .requestHandler(rb.createRouter())
