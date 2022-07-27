@@ -1,0 +1,12 @@
+{
+  "db": {
+    "port": 5432,
+    "host": "payment-service-db",
+    "database": "payment_service_db",
+    "user": "payment_service_admin_user",
+    "password": "1111",
+    "connectionPool": {
+      "maxSize": 5
+    }
+  }
+}

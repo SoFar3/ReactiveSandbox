@@ -1,0 +1,21 @@
+databaseChangeLog:
+  - changeSet:
+      id: 2
+      author: yteplyi
+      preConditions:
+        tableExists:
+          tableName: transactions
+      changes:
+        - tagDatabase:
+            tag: 2
+        - dropNotNullConstraint:
+            columnDataType: TIMESTAMP
+            columnName: end_timestamp
+            tableName: transactions
+      rollback:
+        - tagDatabase:
+            tag: 2
+        - addNotNullConstraint:
+            columnDataType: TIMESTAMP
+            columnName: end_timestamp
+            tableName: transactions

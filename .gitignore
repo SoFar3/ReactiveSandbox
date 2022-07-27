@@ -29,3 +29,6 @@ dependency-reduced-pom.xml
 # IntelliJ
 .idea
 *.iml
+
+# Docker
+dockerization/**/db_data

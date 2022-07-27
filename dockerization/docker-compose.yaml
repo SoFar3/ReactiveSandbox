@@ -1,0 +1,33 @@
+version: "3.9"
+services:
+  payment-service-db:
+    image: postgres
+    environment:
+      POSTGRES_DB: "payment_service_db"
+      POSTGRES_USER: "payment_service_admin_user"
+      POSTGRES_PASSWORD: "1111"
+      PGDATA: "/var/lib/postgresql/data"
+    volumes:
+      - .\payment-service\db_data:/var/lib/postgresql/data
+    ports:
+      - "5432:5432"
+    networks:
+      - reactive-sandbox
+    command: [ "postgres", "-c", "log_statement=all", "-c", "log_destination=stderr" ]
+  payment-service:
+    image: yteplyi/reactive-payment-service:0.1.0
+    depends_on:
+      - payment-service-db
+    ports:
+      - "9090:8080"
+      - "19090:18787"
+    networks:
+      - reactive-sandbox
+  user-encouragement-service:
+    image: yteplyi/reactive-user-encouragement-service:0.1.0
+    ports:
+      - "9091:8080"
+    networks:
+      - reactive-sandbox
+networks:
+  reactive-sandbox:

@@ -30,6 +30,13 @@
                 <artifactId>reactive-payment-service-server</artifactId>
                 <version>${project.parent.version}</version>
             </dependency>
+
+            <!-- Vert.x -->
+            <dependency>
+                <groupId>io.vertx</groupId>
+                <artifactId>vertx-pg-client</artifactId>
+                <version>${version.io.vertx}</version>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
