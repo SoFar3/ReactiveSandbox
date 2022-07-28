@@ -4,16 +4,19 @@ import com.yteplyi.sandbox.reactive.payment_service.payments.entity.PaymentMetho
 import com.yteplyi.sandbox.reactive.payment_service.payments.entity.TransactionEntity;
 import com.yteplyi.sandbox.reactive.payment_service.payments.entity.TransactionStatus;
 import com.yteplyi.sandbox.reactive.payment_service.payments.repository.TransactionRepository;
+import com.yteplyi.sandbox.reactive.payment_service.utils.RowReturningMapper;
 import io.vertx.core.AsyncResult;
 import io.vertx.core.Future;
 import io.vertx.core.Handler;
 import io.vertx.core.Vertx;
+import io.vertx.core.json.JsonArray;
 import io.vertx.core.json.JsonObject;
 import io.vertx.pgclient.PgConnectOptions;
 import io.vertx.pgclient.PgPool;
 import io.vertx.sqlclient.*;
 
 import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Optional;
 import java.util.function.Function;
 
@@ -27,14 +30,16 @@ public class TransactionRepositoryImpl implements TransactionRepository {
 
     private PgPool client;
 
-    private Function<Row, TransactionEntity> TRANSACTION_MAPPER = row ->
-            new TransactionEntity(
-                    row.getLong(0),
-                    row.getInteger(1),
-                    PaymentMethod.valueOf(row.getString(2)),
-                    TransactionStatus.valueOf(row.getString(3)),
-                    row.getLocalDateTime(3),
-                    null);
+    private final Function<Row, TransactionEntity> TRANSACTION_MAPPER = row -> {
+        JsonArray valuesArray = RowReturningMapper.map(row);
+        return new TransactionEntity(
+                valuesArray.getLong(0),
+                valuesArray.getInteger(1),
+                PaymentMethod.valueOf(valuesArray.getString(3)),
+                TransactionStatus.valueOf(valuesArray.getString(2)),
+                (LocalDateTime) valuesArray.getValue(4),
+                null);
+    };
 
 
     public TransactionRepositoryImpl(Vertx vertx, JsonObject config) {
